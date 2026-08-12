@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="container">
+            <div class="login-card">
+                <div class="logo-section">
+                    <h1>Student Portal</h1>
+                    <p>Access your academic information</p>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="rollNumber">Roll Number</label>
+                        <input 
+                            type="text" 
+                            id="rollNumber" 
+                            placeholder="Enter your roll number"
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input 
+                            type="date" 
+                            id="dateOfBirth" 
+                            required
+                        >
+                        <small>First login uses DOB as temporary password</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Sign In
+                    </button>
+                </form>
+
+                <div id="loginError" class="alert alert-error" style="display: none;"></div>
+
+                <div class="login-info">
+                    <p>📱 Secure login with your academic credentials</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Creation Page (First Login) -->
+    <div id="passwordPage" class="page">
+        <div class="container">
+            <div class="form-card">
+                <div class="header">
+                    <h2>Create Your Password</h2>
+                    <p>Your first login detected. Please create a secure password.</p>
+                </div>
+
+                <form id="passwordForm" class="login-form">
+                    <div class="form-group">
+                        <label for="tempPassword">Temporary Password (DOB)</label>
+                        <input 
+                            type="password" 
+                            id="tempPassword" 
+                            placeholder="Your date of birth"
+                            required
+                            readonly
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input 
+                            type="password" 
+                            id="newPassword" 
+                            placeholder="Create a strong password"
+                            required
+                        >
+                        <div class="password-strength">
+                            <div id="strengthBar" class="strength-bar"></div>
+                        </div>
+                        <small id="strengthText">Password strength: Weak</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            placeholder="Confirm your password"
+                            required
+                        >
+                    </div>
+
+                    <div class="password-requirements">
+                        <h4>Password Requirements:</h4>
+                        <ul>
+                            <li id="req-length">✗ At least 8 characters</li>
+                            <li id="req-uppercase">✗ Contains uppercase letter</li>
+                            <li id="req-lowercase">✗ Contains lowercase letter</li>
+                            <li id="req-number">✗ Contains number</li>
+                            <li id="req-special">✗ Contains special character (!@#$%^&*)</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Set Password
+                    </button>
+                </form>
+
+                <div id="passwordError" class="alert alert-error" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="page">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h2>Student Portal</h2>
+            </div>
+            <div class="navbar-menu">
+                <a href="#" id="profileBtn" class="nav-link">Profile</a>
+                <a href="#" id="attendanceBtn" class="nav-link">Attendance</a>
+                <a href="#" id="gradesBtn" class="nav-link">Grades</a>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </div>
+        </nav>
+
+        <div class="container dashboard-container">
+            <!-- Profile Tab -->
+            <section id="profileTab" class="tab-content active">
+                <div class="welcome-section">
+                    <h2>Welcome, <span id="studentName">Student</span></h2>
+                    <p>Here's your academic information</p>
+                </div>
+
+                <div class="grid grid-cols-2">
+                    <!-- Personal Information Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Personal Information</h3>
+                            <button id="editProfileBtn" class="btn btn-sm btn-outline">Edit</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-item">
+                                <span class="label">Roll Number:</span>
+                                <span id="profileRollNumber" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Name:</span>
+                                <span id="profileFullName" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Email:</span>
+                                <span id="profileEmail" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Phone:</span>
+                                <span id="profilePhone" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Date of Birth:</span>
+                                <span id="profileDOB" class="value">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Information Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Academic Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-item">
+                                <span class="label">Semester:</span>
+                                <span id="profileSemester" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Department:</span>
+                                <span id="profileDepartment" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Enrollment Date:</span>
+                                <span id="profileEnrollmentDate" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">GPA:</span>
+                                <span id="profileGPA" class="value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Status:</span>
+                                <span id="profileStatus" class="value badge badge-success">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Attendance Tab -->
+            <section id="attendanceTab" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Attendance Summary</h3>
+                        <div class="filter-group">
+                            <select id="attendanceFilter" class="form-control">
+                                <option value="all">All Semesters</option>
+                                <option value="current">Current Semester</option>
+                                <option value="previous">Previous Semester</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="attendance-overview">
+                            <div class="stat-box">
+                                <div class="stat-value" id="totalAttendance">-</div>
+                                <div class="stat-label">Overall Attendance</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="classesPresent">-</div>
+                                <div class="stat-label">Classes Attended</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="classesAbsent">-</div>
+                                <div class="stat-label">Classes Absent</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="classesLeave">-</div>
+                                <div class="stat-label">On Leave</div>
+                            </div>
+                        </div>
+
+                        <div class="attendance-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Course</th>
+                                        <th>Classes</th>
+                                        <th>Present</th>
+                                        <th>Absent</th>
+                                        <th>Leave</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendanceTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center">Loading attendance data...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Grades Tab -->
+            <section id="gradesTab" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Academic Performance</h3>
+                        <div class="filter-group">
+                            <select id="semesterFilter" class="form-control">
+                                <option value="all">All Semesters</option>
+                                <option value="current">Current Semester</option>
+                                <option value="sem1">Semester 1</option>
+                                <option value="sem2">Semester 2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="grades-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th>Course Name</th>
+                                        <th>Credits</th>
+                                        <th>Grade</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gradesTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center">Loading grades...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="grades-summary">
+                            <div class="summary-item">
+                                <span>Cumulative GPA:</span>
+                                <strong id="cumulativeGPA">-</strong>
+                            </div>
+                            <div class="summary-item">
+                                <span>Semester GPA:</span>
+                                <strong id="semesterGPA">-</strong>
+                            </div>
+                            <div class="summary-item">
+                                <span>Total Credits:</span>
+                                <strong id="totalCredits">-</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="editProfileForm" class="modal-body">
+                <div class="form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editPhone">Phone Number</label>
+                    <input type="tel" id="editPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="editAddress">Address</label>
+                    <textarea id="editAddress" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore-compat.js"></script>
+
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/student.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
