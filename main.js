@@ -21,32 +21,40 @@ let appState = {
 // INITIALIZATION
 // ============================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('Application initializing...');
-    
-    // Check if already authenticated
-    if (authManager.isAuthenticated()) {
-        const session = authManager.getSession();
-        if (session) {
-            loadDashboard();
+
+    try {
+        // 1. Initialize Firebase FIRST
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
         }
+
+        console.log('Firebase initialized successfully');
+
+        // 2. Initialize event listeners
+        initializeEventListeners();
+
+        // 3. Check authentication AFTER Firebase initialization
+        if (authManager.isAuthenticated()) {
+            const session = authManager.getSession();
+
+            if (session) {
+                await loadDashboard();
+            }
+        }
+
+        // 4. Application ready
+        appState.isInitialized = true;
+        console.log('Application ready');
+
+        uiController.hideLoading();
+
+    } catch (error) {
+        console.error('Application initialization error:', error);
+        uiController.hideLoading();
     }
-    
-    // Initialize event listeners
-    initializeEventListeners();
-    
-    // Initialize Firebase
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-
-console.log('Firebase initialized successfully');
-    
-    appState.isInitialized = true;
-    console.log('Application ready');
-    uiController.hideLoading();
 });
-
 // ============================================
 // EVENT LISTENERS - LOGIN PAGE
 // ============================================
@@ -247,9 +255,7 @@ async function loadDashboard() {
         appState.currentUser = currentUser;
 
         // Populate profile
-        appState.currentUser = currentUser;
-
-
+     appState.currentUser = currentUser;
 
 // Load all dashboard data simultaneously
 await Promise.all([
