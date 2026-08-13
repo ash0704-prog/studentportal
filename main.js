@@ -251,18 +251,15 @@ async function loadDashboard() {
 
 
 
-// Load student data
-await loadStudentData();
+// Load all dashboard data simultaneously
+await Promise.all([
+    loadStudentData(),
+    loadAttendanceData(),
+    loadGradesData()
+]);
 
-        // Load student data
-       
-        await loadAttendanceData();
-
-        // Load grades data
-        await loadGradesData();
-
-        // Navigate to dashboard
-        uiController.navigateTo('dashboard');
+// Navigate to dashboard
+uiController.navigateTo('dashboard');
 
     } catch (error) {
         console.error('Dashboard load error:', error);
