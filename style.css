@@ -135,13 +135,27 @@ body {
    ============================================ */
 
 #loginPage, #passwordPage {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background-image: url("./college-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
 }
+#loginPage::before,
+#passwordPage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.20);
+}
 
+#loginPage,
+#passwordPage {
+    position: relative;
+}
 #loginPage.active, #passwordPage.active {
     display: flex;
 }
@@ -153,6 +167,8 @@ body {
     width: 100%;
     max-width: 450px;
     padding: 40px;
+   position: relative;
+   z-index: 1;
 }
 
 .logo-section {
